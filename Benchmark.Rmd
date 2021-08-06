@@ -1,0 +1,459 @@
+---
+title: "Benchmark"
+author: "Victoria Okoro"
+date: "8/6/2021"
+output: html_document
+---
+
+```{r}
+
+library(tidyverse) #collection of r packages
+library(dplyr) #data =frame manipulation
+library(ggplot2) #package to create graphs
+library("viridis") # color package
+library(RColorBrewer)#colors figures
+library(hrbrthemes) #theme package
+library(plotly) #make graph interactive
+
+```
+
+```{r}
+pb <- read.csv("~/Documents/Public Benchmark/Public_Benchmark/Copy of Public Benchmark - Tech Competitor Data .csv")
+
+```
+
+```{r}
+pb$Company.Size <- as.numeric(pb$Company.Size)
+pb$White <- as.numeric(pb$White)
+pb$Black <- as.numeric(pb$Black)
+pb$Latinx...Hispanic <- as.numeric(pb$Latinx...Hispanic)
+pb$American.Indian.and.Alaska.Native <- as.numeric(pb$American.Indian.and.Alaska.Native)
+pb$Native.Hawaiian.or.Other.Pacific.Islander <- as.numeric(pb$Native.Hawaiian.or.Other.Pacific.Islander)
+pb$Asian <- as.numeric(pb$Asian)
+
+```
+
+
+
+My hypothesis for the diversity data is that bigger companies will  have better diversity stats because of the amount of employees that they have. Mid-sized and smaller companies have worse diversity stats because diversity and inclusion is not a top priority for the company. 
+
+
+#######Diversity Stats for Larger Companies
+
+
+
+
+```{r}
+
+
+pb_largeCompany <- filter(pb, Company.Size >= 8000)
+
+```
+
+Cisco has the most men with 74% of their company being male while HP has way less men with only 36% of males working for the company.
+
+
+
+```{r}
+
+globalMen_largeCompany <- ggplot(pb_largeCompany, aes(x=Company.Name, y=Global.Men, fill = Company.Name)) + 
+  geom_bar(stat = "identity", width = 0.5) + ylim(0,100)
+
+ggplotly(globalMen_largeCompany + theme(axis.text.x = element_text(angle=45)) + labs(title = "Global Men Stats for Larger Companies(%)"))
+
+
+```
+
+
+
+HP has the best percentage of women with 64% of women working for the company while Cisco has the worst percentage of women with 26% of women working for them.
+
+```{r}
+globalWomen_largeCompany <- ggplot(pb_largeCompany, aes(x=Company.Name, y=Global.Women, fill = Company.Name)) + 
+  geom_bar(stat = "identity", width = 0.5)  + ylim(0,100)
+
+
+
+ ggplotly(globalWomen_largeCompany + theme(axis.text.x = element_text(angle=45)) + labs(title = "Global Women Stats for Larger Companies(%)"))
+
+
+```
+
+
+
+
+
+```{r}
+
+pb_largeCompany <- pb_largeCompany[-12 ,]
+
+```
+The overall statistics of black employees is relatively overall. Google has the worst stats for black employees with 2.6% while Apple has the best diversity statistics with 9.0% of black employees; however, this is most likely due to retail workers so the number is most likely much lower. 
+
+
+
+```{r}
+
+
+usBlackStats_largeCompany <- ggplot(pb_largeCompany, aes(x=Company.Name, y=Black
+, fill = Company.Name)) + 
+  geom_bar(stat = "identity", width = 0.5) + ylim(0,100)
+
+  
+
+ ggplotly(usBlackStats_largeCompany + theme(axis.text.x = element_text(angle=45)) + labs(title = "United States Stats for Black Employees for Larger Companies(%)"))
+
+
+
+```
+
+
+
+Apple has the best stats for Hispanic/Latin workers with 14.0% but this is most likely due to retail workers being factored into the statistics in terms of the operate percentage it is probably much lower.  Google has the worst statistics with 3.7% of Hispanic/Latin employees. 
+
+```{r}
+
+
+usHLStats_largeCompany <- ggplot(pb_largeCompany, aes(x=Company.Name, y=Latinx...Hispanic, fill = Company.Name)) + 
+  geom_bar(stat = "identity", width = 0.5) +  ylim(0,100)
+  
+
+ggplotly(usHLStats_largeCompany + theme(axis.text.x = element_text(angle=45)) + labs(title = "United States Stats for Hispanic / Latinx Employees 
+for Larger Companies(%)"))
+
+
+
+```
+
+
+The statistics for American Indian and Alaska Native employees are extremely low overall. HP has the best statistic of AIAN employees with 1.0% while Facebook, Google, Pandora and Paypal are tied with 0.0%.
+
+```{r}
+
+
+
+usAIANStats_largeCompany <- ggplot(pb_largeCompany, aes(x=Company.Name, y=American.Indian.and.Alaska.Native, fill = Company.Name)) + 
+  geom_bar(stat = "identity", width = 0.5) + ylim(0,100)
+  
+
+ggplotly(usAIANStats_largeCompany + theme(axis.text.x = element_text(angle=45)) + labs(title = "United States Stats for American Indian and Alaska Native
+Employees for Larger Companies(%)"))
+
+
+
+```
+
+
+The stats for Native Hawaiian or Other Pacific Islander employees is terrible overall. The company with best statistic would be HP and Pandora with 1.0% while Amazon, Apple, Facebook, Google, Linkedin, Paypal have the worst stats with 0.0%.
+
+```{r}
+
+
+
+usNHPIStats_largeCompany <- ggplot(pb_largeCompany, aes(x=Company.Name, y=Native.Hawaiian.or.Other.Pacific.Islander
+, fill = Company.Name)) + geom_bar(stat = "identity", width = 0.5) + ylim(0,100)
+  
+
+ggplotly(usNHPIStats_largeCompany + theme(axis.text.x = element_text(angle=45)) + labs(title = "United States Stats for Native Hawaiian or 
+Other Pacific Islander Employees for Larger Companies(%)"))
+
+
+
+```
+## R Markdown
+
+Diversity stats for Asians are extremely good overall with the best being Facebook with 44.4% Asian employees while HP is the least with 12.1 Asian employees. 
+
+
+
+```{r}
+
+
+
+usAsianStats_largeCompany <- ggplot(pb_largeCompany, aes(x=Company.Name, y=Asian
+, fill = Company.Name)) + geom_bar(stat = "identity", width = 0.5) + ylim(0,45)
+  
+
+ggplotly(usAsianStats_largeCompany + theme(axis.text.x = element_text(angle=45)) + labs(title = "United States Stats for Asians in Larger Comapnies"))
+
+
+
+```
+
+
+
+
+#####Diversity Stats for Mid-Sized Companies
+
+
+
+```{r}
+
+
+
+pb_midCompany <- pb %>% filter(between(Company.Size,4000,7000))
+
+
+```
+
+
+Twilio has the largest stats for men at their company with 68.0% of men while AirBnb has the lowest with 51.0% men. 
+
+```{r}
+
+globalMen_midCompany <- ggplot(pb_midCompany, aes(x=Company.Name, y=Global.Men, fill = Company.Name)) + 
+  geom_bar(stat = "identity", width = 0.2) + ylim(0,100)
+
+
+
+ggplotly(globalMen_midCompany + theme(axis.text.x = element_text(angle=45)) + scale_fill_viridis_d() + labs(title = "Global Men Stats for Mid-size Companies(%)"))
+
+
+
+```
+
+AirBnb has the best stats for women at their company with 48.9% while Twilio has the lowest stats with 31.0%.
+
+```{r}
+
+globalWomen_midCompany <- ggplot(pb_midCompany, aes(x=Company.Name, y=Global.Women, fill = Company.Name)) + 
+  geom_bar(stat = "identity", width = 0.2) + ylim(0,100)
+
+
+
+ggplotly(globalWomen_midCompany + theme(axis.text.x = element_text(angle=45)) + scale_fill_viridis_d() + labs(title = "Global Women Stats for Mid-size Companies(%)"))
+
+
+
+```
+
+Square has the best stats for black employees with 11.2% of black employees while Airbnb has the worst stats with 3.5% of black employees.
+
+```{r}
+
+
+usBlackStats_midCompany <- ggplot(pb_midCompany, aes(x=Company.Name, y=Black
+, fill = Company.Name)) + geom_bar(stat = "identity", width = 0.2) + ylim(0,100)
+  
+
+ggplotly(usBlackStats_midCompany + theme(axis.text.x = element_text(angle=45)) +  scale_fill_viridis_d() + labs(title = "United States Stats for Black Employees for Mid-Size Companies(%)"))
+
+
+
+```
+
+
+Groupon has the best diversity stats for Hispanic / Latinx employees with 16.4% while square has the least with 5.9%.
+
+```{r}
+
+
+usHLStats_midCompany <- ggplot(pb_midCompany, aes(x=Company.Name, y=Latinx...Hispanic
+, fill = Company.Name)) + 
+  geom_bar(stat = "identity", width = 0.2) + ylim(0,100)
+  
+
+ggplotly(usHLStats_midCompany + theme(axis.text.x = element_text(angle=45)) + scale_fill_viridis_d() + labs(title = "United States Stats for Hispanic / Latinx Employees 
+for Mid-Size Companies(%)"))
+
+
+
+```
+
+
+Square has the best stats for American Indian and Alaska Native employees with 0.6% while Twillo has the lowest with 0.0%
+
+```{r}
+
+
+
+usAIANStats_midCompany <- ggplot(pb_midCompany, aes(x=Company.Name, y=American.Indian.and.Alaska.Native, fill = Company.Name)) + 
+  geom_bar(stat = "identity", width = 0.2) + ylim(0,100)
+  
+
+ggplotly(usAIANStats_midCompany + theme(axis.text.x = element_text(angle=45)) + scale_fill_viridis_d() + labs(title = "United States Stats for American Indian and Alaska Native
+Employees for Mid-Size Companies(%)"))
+
+
+
+```
+
+Airbnb and Groupon have the best stats with 0.3% of Native Hawaiian or Other Pacific Islander Employees while Square, Twillo and Twitter have the lowest with 0.0%.
+
+
+```{r}
+
+
+
+usNHPIStats_midCompany <- ggplot(pb_midCompany, aes(x=Company.Name, y=Native.Hawaiian.or.Other.Pacific.Islander
+, fill = Company.Name)) + geom_bar(stat = "identity", width = 0.2) + ylim(0,100)
+  
+
+ggplotly(usNHPIStats_midCompany + theme(axis.text.x = element_text(angle=45)) + scale_fill_viridis_d() + labs(title = "United States Stats for Native Hawaiian or 
+Other Pacific Islander Employees for Mid-Size Companies(%)"))
+
+
+
+```
+## R Markdown
+
+Airbnb have the best stats for Asian employees with 38.0% while square has the lowest stats with 1.7%. 
+
+```{r}
+
+
+
+usAsianStats_midCompany <- ggplot(pb_midCompany, aes(x=Company.Name, y=Asian
+, fill = Company.Name)) + geom_bar(stat = "identity", width = 0.2) + ylim(0,100)
+  
+
+ggplotly(usAsianStats_midCompany + theme(axis.text.x = element_text(angle=45)) + scale_fill_viridis_d() + labs(title = "United States Stats for Asians in Mid-Size Comapnies(%)"))
+
+
+
+```
+
+
+
+
+
+
+
+#Diversity Stats for smaller companies
+
+```{r}
+
+
+
+pb_smallCompany <- pb %>% filter(between(Company.Size,0, 3999))
+
+
+```
+
+
+
+
+Pivotal has the best stats for men with 75.0% while Buzz feed has the worst stats for men with 39.0%.
+
+
+```{r}
+
+
+nb.cols <- 18
+mycolors <- colorRampPalette(brewer.pal(8, "Set2"))(nb.cols)
+
+globalMen_smallCompany <- ggplot(pb_smallCompany, aes(x=Company.Name, y=Global.Men, fill = Company.Name))  + geom_bar(stat = "identity", width = 0.4) + ylim(0,100)
+
+
+
+ggplotly(globalMen_smallCompany + theme(axis.text.x = element_text(angle=45)) + labs(title = "Global Men Stats for Small Companies(%)") + scale_fill_manual(values = mycolors))
+
+
+```
+
+Buzz feed has the best stats for women with 60.5%while Pivotal has the worst stats for women with 25.0%.
+
+```{r}
+
+globalWomen_smallCompany <- ggplot(pb_smallCompany, aes(x=Company.Name, y=Global.Women, fill = Company.Name)) + 
+  geom_bar(stat = "identity", width = 0.4) + ylim(0,100)
+
+
+
+ggplotly(globalWomen_smallCompany + theme(axis.text.x = element_text(angle=45)) + scale_fill_manual(values = mycolors) + labs(title = "Global Women Stats for Small Companies(%)"))
+
+
+```
+
+
+
+```{r}
+pb_smallCompany <- pb_smallCompany[-7,]
+pb_smallCompany <- pb_smallCompany[-8,]
+
+```
+
+
+Yelp has the best stats for black employees with 20.0% while Betsy has the worst stats with 1.9% Black Employees.
+
+```{r}
+
+
+usBlackStats_smallCompany <- ggplot(pb_smallCompany, aes(x=Company.Name, y=Black
+, fill = Company.Name)) + geom_bar(stat = "identity", width = 0.4) + ylim(0,100)
+  
+
+ggplotly(usBlackStats_smallCompany + theme(axis.text.x = element_text(angle=45)) +  labs(title = "United States Stats for Black Employees for Small Companies(%)") + scale_fill_manual(values = mycolors))
+
+
+
+```
+
+Yelp has the best stats for Latinx/Hispanic employees with 15.9% while etsy has the worst stats with 3.8%.
+
+```{r}
+
+
+usHLStats_smallCompany <- ggplot(pb_smallCompany, aes(x=Company.Name, y=Latinx...Hispanic
+, fill = Company.Name)) + 
+  geom_bar(stat = "identity", width = 0.4) + ylim(0,100)
+  
+
+ggplotly(usHLStats_smallCompany + theme(axis.text.x = element_text(angle=45)) + scale_fill_manual(values = mycolors) + labs(title = "United States Stats for Hispanic /
+Latinx Employees for Small Companies(%)"))
+
+
+
+```
+
+Pintrest and dropbox have the best stats for AIAN employees with 1.0% while Affirm, Betsy, Hubspot, Pivotal and Slack have the worst stats with 0.0%.
+
+```{r}
+
+
+
+usAIANStats_smallCompany <- ggplot(pb_smallCompany, aes(x=Company.Name, y=American.Indian.and.Alaska.Native, fill = Company.Name)) + 
+  geom_bar(stat = "identity", width = 0.4) + ylim(0,100)
+  
+
+ggplotly(usAIANStats_smallCompany + theme(axis.text.x = element_text(angle=45)) + scale_fill_manual(values = mycolors) + labs(title = "United States Stats for American Indian and Alaska Native
+Employees for Small Companies(%)"))
+
+
+
+```
+
+
+
+
+```{r}
+
+
+
+usNHPIStats_smallCompany <- ggplot(pb_smallCompany, aes(x=Company.Name, y=Native.Hawaiian.or.Other.Pacific.Islander
+, fill = Company.Name)) + geom_bar(stat = "identity", width = 0.4) + ylim(0,100)
+  
+
+ggplotly(usNHPIStats_smallCompany + theme(axis.text.x = element_text(angle=45)) + scale_fill_manual(values = mycolors)  + labs(title = "United States Stats for Native Hawaiian or 
+Other Pacific Islander Employees for Small Companies(%)"))
+
+
+
+```
+## R Markdown
+
+```{r}
+
+
+
+usAsianStats_smallCompany <- ggplot(pb_smallCompany, aes(x=Company.Name, y=Asian
+, fill = Company.Name)) + geom_bar(stat = "identity", width = 0.4) + ylim(0,100)
+  
+
+ggplotly(usAsianStats_smallCompany + theme(axis.text.x = element_text(angle=45)) + scale_fill_manual(values = mycolors)  + labs(title = "United States Stats for Asians in Small Comapnies(%)"))
+
+
+
+```
+
+Overall, my hypothesis was wrong because companies like smaller companies like Yelp and Group on had better diversity stats than bigger companies like Amazon and Apple. There is more to consider when trying to see why certain companies have better diversity stats such as the type of industry, tech vs. non tech roles and location. Since Yelp would be related more to the food industry that could be a reason why Yelp is doing better than Amazon which is apart of the Tech industry. If i were to look at Tech vs Non-Tech roles there could be more black and Latin employees that are in more non tech roles than tech roles; however, when looking at diversity stats overall I would have to ermine whether tech roles should be of more importance to look at then non- tech roles. In terms of location, some cities are more diverse than others so that could be a reason why certain companies have more black and latinx employees than others. With these factors to consider there is more to analyze when determining why certain companies are doing better in terms of diversity. 
